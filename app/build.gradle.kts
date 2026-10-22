@@ -25,9 +25,10 @@ android {
         compose = true
     }
 
-    signingConfigs {
+        signingConfigs {
         create("release") {
-            storeFile = project.findProperty("storeFile")?.toString()?.takeIf { it.isNotEmpty() }?.let { file(it) }
+            // 关键修改：把 file(it) 改成 rootProject.file(it)
+            storeFile = project.findProperty("storeFile")?.toString()?.takeIf { it.isNotEmpty() }?.let { rootProject.file(it) }
             storePassword = (project.findProperty("storePassword")?.toString()
                 ?: System.getenv("ANDROID_KEYSTORE_PASSWORD"))
             keyAlias = (project.findProperty("keyAlias")?.toString()
@@ -36,7 +37,6 @@ android {
                 ?: System.getenv("ANDROID_KEY_PASSWORD"))
         }
     }
-
     defaultConfig {
         applicationId = "com.tazztone.losslesscut"
         minSdk = 29
